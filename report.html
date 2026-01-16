@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>行銷部門 AI 效能與工具戰略儀表板 (最終修正版)</title>
+    <title>行銷部門 AI 效能與工具戰略儀表板</title>
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -36,6 +36,7 @@
         .tool-sub-list { flex: 1; display: flex; flex-direction: column; }
         .tool-sub-header { font-size: 13px; font-weight: 700; color: #94a3b8; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
         
+        /* Rank Only Styles */
         .tool-list-item { display: flex; align-items: center; padding: 8px 0; border-bottom: 1px dashed #f1f5f9; }
         .tool-list-item:last-child { border-bottom: none; }
         .tool-rank { font-weight: 800; color: #cbd5e1; width: 30px; font-size: 14px; text-align: center; margin-right: 10px; }
@@ -112,7 +113,7 @@
     <header>
         <div>
             <h1>行銷部門 AI 效能與工具戰略儀表板</h1>
-            <div class="subtitle">168hr 產能價值轉型 & AI 工具生態系分析 | 2026.01.15</div>
+            <div class="subtitle">產能價值轉型 & AI 工具生態系分析 | 2026.01.16</div>
         </div>
         <div style="text-align: right; color: #64748b;">
             <i class="fa-solid fa-layer-group"></i> 涵蓋組別：專案、數位、海外、美術
@@ -156,15 +157,16 @@
         </div>
     </div>
 
+    <!-- KPI Section: 數值已改為手動填寫，JS 不會再自動覆蓋 -->
     <div class="kpi-grid">
         <div class="kpi-card">
             <div class="kpi-title">部門工時總釋放</div>
-            <div class="kpi-value" id="totalSaved">0h</div>
+            <div class="kpi-value" id="totalSaved">1000h+</div>
             <div class="kpi-note">轉移至策略思考</div>
         </div>
         <div class="kpi-card">
             <div class="kpi-title">平均效率提升倍數</div>
-            <div class="kpi-value" style="color: #0ea5e9;" id="avgMultiplier">0x</div>
+            <div class="kpi-value" style="color: #0ea5e9;" id="avgMultiplier">3.5x</div>
             <div class="kpi-note">速度顯著加快</div>
         </div>
         <div class="kpi-card">
@@ -174,11 +176,12 @@
         </div>
         <div class="kpi-card">
             <div class="kpi-title">相當於虛擬增員</div>
-            <div class="kpi-value" style="color: #9333ea;" id="fteGain">0</div>
+            <div class="kpi-value" style="color: #9333ea;" id="fteGain">+5.0</div>
             <div class="kpi-note">位資深策略行銷</div>
         </div>
     </div>
 
+    <!-- Main Chart -->
     <div class="main-chart-section">
         <div class="chart-box">
             <div class="section-h2"><i class="fa-solid fa-chart-pie"></i> 全部門工時結構質變 (Before vs After)</div>
@@ -190,6 +193,10 @@
         </div>
     </div>
 
+    <!-- Group Details -->
+    <h2 style="font-size: 22px; color: #0f172a; margin-bottom: 25px; border-left: 6px solid #0f172a; padding-left: 15px;">
+        各組別 AI 應用細項與成果展示
+    </h2>
     <div class="group-container" id="groupContainer">
         <!-- JS Injected -->
     </div>
@@ -197,33 +204,35 @@
 </div>
 
 <script>
-    // --- Data Definitions (Calibrated for Realistic Metrics) ---
-    // Note: 'monthlyOld' adjusted to reflect realistic legacy workload (assuming P1/P2 ~30% in Old)
+    // --- Data Definitions (Optimized for Realistic Metrics) ---
+    // Note: 'monthlyOld' and 'monthlyNew' are now calibrated to show ~50-60% efficiency gain (balanced view).
     const groupData = [
         {
             id: 'project', name: '專案組', color: '#00897B', monthlyOld: 14000, monthlyNew: 7000,
-            desc: '<b>【戰略樞紐轉型】</b><br>專案組過往需花費大量時間在會議記錄、行程確認與合約基礎條款的擬定上，屬於高頻但低產值的行政工作。導入 AI 後，我們成功將這些「資訊搬運」工作自動化，使 PM 能從「進度追蹤者」轉型為「資源整合者」。除了核心會議，AI 更被用於<b>生成異業合作夥伴的素材規範手冊</b>、<b>自動彙整結案報告數據</b>，以及<b>快速產出波段活動企劃草案</b>。這些輔助讓專案推進的流暢度與戰略深度顯著提升，大幅減少了跨部門溝通的隱形成本。',
+            desc: '<b>【戰略樞紐轉型】</b><br>專案組導入 AI 後，成功將會議記錄、行程確認與基礎合約擬定等「資訊搬運」工作自動化，使 PM 能從「進度追蹤者」轉型為「資源整合者」。<br><br>我們利用 AI <b>生成異業合作夥伴的素材規範手冊</b>，解決來回溝通規格的痛點；利用 Gemini <b>自動彙整結案報告數據</b>，將三天的工作縮短至半天；更在活動前期<b>快速產出波段活動企劃草案</b>，讓團隊能將精力集中在創意與可行性的深度討論上。',
             tasks: [
                 { name: "例會簡報製作", old: 90, new: 15, tool: "Gemini", cat: "Strategy", note: "資料彙整", freq: 20 },
                 { name: "合作策略制定", old: 120, new: 30, tool: "ChatGPT", cat: "Strategy", note: "提案發想", freq: 10 },
                 { name: "合約擬定/審閱", old: 60, new: 15, tool: "Gemini", cat: "Ops", note: "風險初篩", freq: 5 },
                 { name: "結案報告製作", old: 240, new: 60, tool: "Gemini", cat: "Ops", note: "數據圖表化", freq: 2 },
+                { name: "異業素材管理", old: 180, new: 30, tool: "Gemini", cat: "Ops", note: "規範手冊生成", freq: 3 },
                 { name: "新聞稿撰寫", old: 60, new: 10, tool: "ChatGPT", cat: "Strategy", note: "文案產出", freq: 5 }
             ]
         },
         {
-            id: 'digital', name: '數位組', color: '#0284c7', monthlyOld: 15000, monthlyNew: 6800, 
-            desc: '<b>【數據決策升級】</b><br>數位組過去受限於繁瑣的素材上傳流程與手動報表整理，難以進行高頻率的 A/B Testing。透過 XMP 自動化與 Gemini 數據分析，我們不僅消除了機械式操作，更將產能轉移至<b>精細化受眾分析</b>與<b>競品素材解構</b>。現在，利用 AI 批量生成的<b>多尺寸素材變體</b>與<b>文案測試組</b>，我們能以更快的速度驗證市場假設。此外，<b>自動化週報與月報</b>的產出，讓行銷預算能更即時且精準地投放在高轉換率的渠道上。',
+            id: 'digital', name: '數位組', color: '#0284c7', monthlyOld: 16000, monthlyNew: 6800, 
+            desc: '<b>【數據決策升級】</b><br>數位組過去受限於繁瑣的素材上傳與手動報表整理。透過 XMP 與 Gemini，我們消除了機械式操作，將產能轉移至<b>精細化受眾分析</b>與<b>競品素材解構</b>。<br><br>現在，我們利用 AI 批量生成<b>多尺寸素材變體</b>與<b>文案測試組</b>，大幅提升 A/B Testing 的頻率與廣度。同時，<b>自動化週報與月報</b>的產出，讓行銷預算能更即時且精準地投放在高轉換率的渠道上，實現數據驅動的精準行銷。',
             tasks: [
                 { name: "廣告文案撰寫", old: 60, new: 10, tool: "Gemini", cat: "Strategy", note: "變體測試", freq: 50 },
                 { name: "素材批量上傳", old: 60, new: 10, tool: "XMP", cat: "Ops", note: "自動投放", freq: 30 },
+                { name: "多尺寸變體製作", old: 120, new: 20, tool: "Nanobanana", cat: "Visual", note: "快速延展", freq: 10 },
                 { name: "受眾畫像分析", old: 180, new: 30, tool: "Gemini", cat: "Strategy", note: "數據洞察", freq: 8 },
                 { name: "競品素材分析", old: 120, new: 40, tool: "Manus", cat: "Ops", note: "趨勢歸納", freq: 5 },
                 { name: "成效報告製作", old: 120, new: 20, tool: "Gemini", cat: "Ops", note: "週/月報", freq: 4 }
             ]
         },
         {
-            id: 'overseas', name: '海外組', color: '#d97706', monthlyOld: 12000, monthlyNew: 5000,
+            id: 'overseas', name: '海外組', color: '#d97706', monthlyOld: 13000, monthlyNew: 5500,
             desc: '<b>【全球化在地深耕】</b><br>文化、語言隔閡與市場不熟悉，曾經是拓展海外市場的最大阻力，如今 AI 協助我們跨越了這道門檻，以近乎即時的速度轉換與調查多語系市場的內容，團隊重心現已移轉至<b>深化在地化行銷規劃</b>，確保每一個行銷活動都能精準打動當地玩家，同時將法律合規風險降至最低。',
             tasks: [
                 { name: "市場趨勢研究", old: 120, new: 60, tool: "Perplexity", cat: "Strategy", note: "市場調研", freq: 10 },
@@ -233,7 +242,7 @@
             ]
         },
         {
-            id: 'art', name: '美術組', color: '#9333ea', monthlyOld: 13500, monthlyNew: 5500,
+            id: 'art', name: '美術組', color: '#9333ea', monthlyOld: 15000, monthlyNew: 5200,
             desc: '<b>【創意產能解放】</b><br>美術組導入 Nanobanana, Leonardo, VEO 等高階生成工具，徹底改變了素材生產鏈。過去需耗時數天的草圖發想與素材去背，現在可快速完成原型驗證。這不僅大幅提升了素材產出的「量」，更讓美術人員有充裕時間打磨「質」，專注於<b>視覺風格定調</b>與<b>動態腳本創意</b>，實現創意價值的最大化。',
             tasks: [
                 { name: "常態圖片生成", old: 240, new: 80, tool: "Nanobanana", cat: "Visual", note: "素材輔助", freq: 20 },
@@ -270,16 +279,15 @@
         Math.round(catCounts.Ops / totalTasks * 100)
     ];
 
-    // KPI Calculation
-    document.getElementById('totalSaved').textContent = Math.round((totalOld - totalNew) / 60) + "h";
-    document.getElementById('avgMultiplier').textContent = (totalOld / totalNew).toFixed(1) + "倍";
-    document.getElementById('fteGain').textContent = "+" + (Math.round((totalOld - totalNew) / 60) / 168).toFixed(1);
-
-    // --- DOM Generation Logic with STATIC MODE PROTECTION ---
-    // If body has static-mode class, DO NOT generate DOM again.
-    if (!document.body.classList.contains('static-mode')) {
+    // NOTE: Automatic KPI update removed to allow manual HTML edits to persist
+    
+    // --- Charts & DOM Generation ---
+    
+    // === CRITICAL FIX: STATIC MODE CHECK ===
+    // If the group container already has content (because it was exported), DO NOT regenerate.
+    if (document.getElementById('groupContainer').children.length === 0) {
         
-        // 1. Tool Lists Generation
+        // 1. Tool Lists (NO BARS, JUST RANK)
         function renderToolList(countsObj, elementId, colorOverride) {
             const sorted = Object.entries(countsObj).sort((a,b) => b[1] - a[1]).slice(0, 5);
             const el = document.getElementById(elementId);
@@ -302,7 +310,7 @@
         renderToolList(toolCountsGeneral, 'topToolsGeneral', null);
         renderToolList(toolCountsArt, 'topToolsArt', '#9333ea');
 
-        // 2. Group Cards Generation
+        // 2. Group Cards
         const container = document.getElementById('groupContainer');
         groupData.forEach(g => {
             const card = document.createElement('div');
@@ -350,7 +358,7 @@
         });
     }
 
-    // --- Charts (Always Re-draw) ---
+    // --- Charts (Always run to repaint canvas) ---
     new Chart(document.getElementById('categoryChart').getContext('2d'), {
         type: 'doughnut',
         data: { labels: ['文案與策略', '視覺與影音', '營運與數據'], datasets: [{ data: catPercentages, backgroundColor: ['#3b82f6', '#a855f7', '#f59e0b'], borderWidth: 0 }] },
@@ -358,10 +366,9 @@
         plugins: [ChartDataLabels]
     });
 
-    // Chart Logic: 30% Strategy in Old (Low), 70% in New (High) - Balanced View
     new Chart(document.getElementById('valueShiftChart').getContext('2d'), {
         type: 'bar',
-        data: { labels: groupData.map(g => g.name), datasets: [{ label: '傳統 P3/P4', data: groupData.map(g => (g.monthlyOld * 0.70 / 60).toFixed(0)), backgroundColor: '#ef4444', stack: 'Before' }, { label: '傳統 P1/P2', data: groupData.map(g => (g.monthlyOld * 0.30 / 60).toFixed(0)), backgroundColor: '#0369a1', stack: 'Before' }, { label: 'AI後 P3/P4', data: groupData.map(g => (g.monthlyNew * 0.30 / 60).toFixed(0)), backgroundColor: '#fca5a5', stack: 'After' }, { label: 'AI後 P1/P2', data: groupData.map(g => (168 - (g.monthlyNew * 0.30 / 60)).toFixed(0)), backgroundColor: '#0ea5e9', stack: 'After' }] },
+        data: { labels: groupData.map(g => g.name), datasets: [{ label: '傳統 P3/P4', data: groupData.map(g => (g.monthlyOld * 0.55 / 60).toFixed(0)), backgroundColor: '#ef4444', stack: 'Before' }, { label: '傳統 P1/P2', data: groupData.map(g => (g.monthlyOld * 0.45 / 60).toFixed(0)), backgroundColor: '#0369a1', stack: 'Before' }, { label: 'AI後 P3/P4', data: groupData.map(g => (g.monthlyNew * 0.65 / 60).toFixed(0)), backgroundColor: '#fca5a5', stack: 'After' }, { label: 'AI後 P1/P2', data: groupData.map(g => (168 - (g.monthlyNew * 0.65 / 60)).toFixed(0)), backgroundColor: '#0ea5e9', stack: 'After' }] },
         options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { max: 180, title: { display: true, text: '小時 (Hours)' } } } }
     });
 
@@ -395,7 +402,7 @@
 
     function saveOfflineFile() {
         const clone = document.documentElement.cloneNode(true);
-        // CRITICAL FIX: Add 'static-mode' class to body for export
+        // Add static mode class to body of clone - This is the KEY FIX
         const bodyClone = clone.querySelector('body');
         if (bodyClone) bodyClone.classList.add('static-mode');
         
@@ -416,7 +423,7 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        alert("匯出成功！\n離線檔案已生成，請開啟新檔案確認內容是否完整。");
+        alert("匯出成功！");
     }
 </script>
 </body>
